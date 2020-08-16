@@ -1,0 +1,11 @@
+Couldn't figured out
+
+French Language
+English Language
+Accounts Credited Mobile
+Accounts Credited Web
+Weekly Checks Submitted
+Monthly Checks Submitted
+
+Administration Page > client
+there's no password, number of licenses in vieva_corporate_clients table

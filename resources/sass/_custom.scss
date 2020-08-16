@@ -1,10 +1,28 @@
 // Here you can add other styles
 
-
-.c-header.c-header-fixed{
-    top:0px;
+.c-header.c-header-fixed {
+    top: 0px;
 }
 
-.click-file{
-    cursor:pointer;
+.click-file {
+    cursor: pointer;
+}
+
+.th-border-none {
+    border-top: none;
+}
+
+.custom-card {
+    border: none;
+
+    .card-header {
+        padding: 20px 20px 0px 25px;
+        font-size: large;
+        font-weight: 900;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+}
+
+.analytics-page {
 }
