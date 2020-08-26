@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Lesson;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class LessonsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +16,14 @@ class ClientsController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Show the form for creating a new resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function create()
     {
-        return view("dashboard.clients.create");
+        return view("dashboard.lessons.create");
     }
 
     /**
@@ -35,10 +34,14 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        $client = $request->except(['_token']);
-        Client::create($client);
+        $lesson = $request->except(['_token', 'video_file']);
 
-        return redirect('/administration');
+        $path = $request->file('video_file')->store('public/lessons');
+        $lesson['video_file'] = $path;
+
+        Lesson::create($lesson);
+
+        return redirect('/content');
     }
 
     /**
@@ -60,8 +63,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::where("corporate_client_id", $id)->get();
-        return view("dashboard.clients.edit", ["client" => $client[0]]);
+        $lesson = Lesson::where("lesson_id", $id)->get();
+        return view("dashboard.lessons.edit", ["lesson" => $lesson[0]]);
     }
 
     /**
@@ -73,8 +76,16 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::where("corporate_client_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/administration');
+        $lesson = $request->except(['_token', '_method', 'video_file']);
+
+        if ($request->file('video_file')) {
+            $path = $request->file('video_file')->store('public/lessons');
+            $lesson['video_file'] = $path;
+        }
+
+        Lesson::where("lesson_id", $id)->update($lesson);
+
+        return redirect('/content');
     }
 
     /**
@@ -85,7 +96,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        Client::where("corporate_client_id", $id)->delete();
-        return redirect('/administration');
+        Lesson::where("lesson_id", $id)->delete();
+        return redirect('/content');
     }
 }

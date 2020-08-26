@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Lesson;
+use App\Quote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ClientsController extends Controller
+class QuotesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +26,10 @@ class ClientsController extends Controller
      */
     public function create()
     {
-        return view("dashboard.clients.create");
+        $lessons = Lesson::all();
+        return view("dashboard.quotes.create", [
+            "lessons" => $lessons,
+        ]);
     }
 
     /**
@@ -35,10 +40,12 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        $client = $request->except(['_token']);
-        Client::create($client);
+        $quote = $request->except(['_token', 'video_id']);
+        $stored = Quote::create($quote);
 
-        return redirect('/administration');
+        DB::table('vieva_quote_video_related')->insert(['quote_id' => $stored->id, 'video_id' => $request->input('video_id')]);
+
+        return redirect('/content');
     }
 
     /**
@@ -60,8 +67,16 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::where("corporate_client_id", $id)->get();
-        return view("dashboard.clients.edit", ["client" => $client[0]]);
+        $lessons = Lesson::all();
+        $quote = Quote::where("quote_id", $id)->get();
+
+        $related_lesson = DB::table('vieva_quote_video_related')->where('quote_id', $quote[0]->quote_id)->get();
+
+        return view("dashboard.quotes.edit", [
+            "quote" => $quote[0],
+            "lessons" => $lessons,
+            "related_lesson_id" => $related_lesson[0]->video_id,
+        ]);
     }
 
     /**
@@ -73,8 +88,8 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::where("corporate_client_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/administration');
+        Quote::where("quote_id", $id)->update($request->except(['_token', '_method', 'video_id']));
+        return redirect('/content');
     }
 
     /**
@@ -85,7 +100,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        Client::where("corporate_client_id", $id)->delete();
-        return redirect('/administration');
+        Quote::where("quote_id", $id)->delete();
+        return redirect('/content');
     }
 }

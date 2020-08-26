@@ -26,7 +26,17 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::get('/', "AdministrationController@index");
 
         Route::resource('clients', 'ClientsController');
-        Route::resource('team', 'TeamsController');
+        Route::resource('teams', 'TeamsController');
+    });
+
+    Route::prefix("content")->group(function () {
+        Route::get('/', "ContentController@index");
+
+        Route::get('/series/set_order/{orgin_id}/{target_id}/{origin_val}/{target_val}', "SeriesController@set_order");
+        Route::resource('series', 'SeriesController');
+        Route::resource('lessons', 'LessonsController');
+        Route::resource('quotes', 'QuotesController');
+        Route::resource('tools', 'ToolsController');
     });
 
     Route::group(['middleware' => ['role:user']], function () {

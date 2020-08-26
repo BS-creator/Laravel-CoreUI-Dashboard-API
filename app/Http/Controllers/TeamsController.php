@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamsController extends Controller
 {
@@ -23,7 +25,12 @@ class TeamsController extends Controller
      */
     public function create()
     {
-        return view("dashboard.teams.create");
+        $clients = DB::table('vieva_corporate_clients')->get();
+        $admins = DB::table('users')->where("user_level", 7)->get();
+
+        return view("dashboard.teams.create", [
+            "admins" => $admins,
+        ]);
 
     }
 
@@ -35,7 +42,10 @@ class TeamsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $team = $request->except(['_token']);
+        Team::create($team);
+
+        return redirect('/administration');
     }
 
     /**

@@ -124,14 +124,14 @@
                         <tr>
                           <th style="color: green; text-align: center;">Create Team</th>
                           <th style="width:46px">
-                            <a href="/administration/team/create">
+                            <a href="/administration/teams/create">
                               <i class="cil-plus" style="font-size: 21px; cursor: pointer; font-weight: bold;"></i></a>
                           </th>
                         </tr>
-                        @foreach ($clients as $client)
+                        @foreach ($teams as $team)
                           <tr>
-                            <th>{{ $client->corporate_name }}</th>
-                            <th><a href="/administration/team/edit"><i class="cil-pencil"
+                            <th>{{ $team->group_name }}</th>
+                            <th><a href="/administration/teams/edit"><i class="cil-pencil"
                                   style="font-size: 21px; cursor: pointer;"></i></a></th>
                           </tr>
                         @endforeach
@@ -163,7 +163,42 @@
             </div>
           </div>
           <div class="tab-pane" id="users" role="tabpanel">
+            <div class="row">
+              <div class="col-lg-12">
+                {{-- User --}}
+                <div class="card custom-card">
+                  <div class="card-header"><i class="fa fa-align-justify"></i> Search User</div>
+                  <div class="card-body">
+                    <form action="">
+                      <div class="form-group">
+                        <label for="nf-email"> Email </label>
+                        <input name="email" class="form-control" id="nf-email" autocomplete="true">
+                      </div>
+                    </form>
 
+                    <label>Search Results</label>
+                    <table class="table table-responsive-sm table-bordered">
+                      <tbody>
+                        <tr>
+                          <th style="width:46px">
+                            <a href="/administration/clients/create">
+                              <i class="cil-plus" style="font-size: 21px;cursor: pointer; font-weight: bold;"></i></a>
+                          </th>
+                        </tr>
+                        @foreach ($clients as $client)
+                          <tr>
+                            <th>{{ $client->corporate_name }}</th>
+                            <th><a href="/administration/clients/{{ $client->corporate_client_id }}/edit"><i
+                                  class="cil-pencil" style="font-size: 21px;cursor: pointer;"></i></a></th>
+                          </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>

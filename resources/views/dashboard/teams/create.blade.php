@@ -12,34 +12,31 @@
   <div class="container-fluid">
     <div class="fade-in">
       <div class="card" style="max-width: 65%; margin: auto;">
-        <div class="card-header">Add Client</div>
-        <div class="card-body">
-          <form action="" method="post">
+        <div class="card-header">Create team</div>
+        <form action={{ route('teams.store') }} method="post" id="createTeamForm">
+          <div class="card-body">
+            @csrf
             <div class="form-group">
-              <label>Client name</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <label>Team name</label>
+              <input name="group_name" class="form-control" id="nf-name" required>
             </div>
             <div class="form-group">
-              <label for="nf-pass">Password</label>
-              <input class="form-control" id="nf-pass" type="password" name="nf-pass" autocomplete="true">
+              <label>Team members</label>
+              <input class="form-control" id="nf-name" required>
             </div>
             <div class="form-group">
-              <label>Number of Licenses</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <label>Team admin</label>
+              <select name="corporate_group_admin_id" class="form-control form-control-lg" id="Timeframe">
+                @foreach ($admins as $admin)
+                  <option value="{{ $admin->id }}"> {{ $admin->first_name }} {{ $admin->last_name }} </option>
+                @endforeach
+              </select>
             </div>
-            <div class="form-group">
-              <label>Program starting date</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
-            </div>
-            <div class="form-group">
-              <label>Program expiration date</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
-            </div>
-          </form>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-lg btn-success" type="submit" style="width: 100%"> Create Client </button>
-        </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-lg btn-success" type="submit" style="width: 100%"> Create Team </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

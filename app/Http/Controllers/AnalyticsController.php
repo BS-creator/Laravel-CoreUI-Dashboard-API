@@ -34,52 +34,53 @@ class AnalyticsController extends Controller
         ]);
     }
 
+    // BEGIN General Tab
     public function getGeneralStats()
     {
         $general_stats = [
             [
                 "label" => "Total Registered Accounts",
-                "value" => DB::table('vieva_users')->count(),
+                "value" => DB::table('users')->count(),
             ],
             [
                 "label" => "Online Users",
-                "value" => 2314,
+                "value" => DB::table('vieva_current_users')->count(),
             ],
             [
                 "label" => "Free Accouts",
-                "value" => DB::table('vieva_users')->where("user_level", 4)->count(),
+                "value" => DB::table('users')->where("user_level", 4)->count(),
             ],
             [
                 "label" => "Premium Accounts",
-                "value" => DB::table('vieva_users')->where("user_level", 3)->count(),
+                "value" => DB::table('users')->where("user_level", 3)->count(),
             ],
             [
                 "label" => "Corporate Accounts",
-                "value" => DB::table('vieva_users')->where("user_level", 2)->count(),
+                "value" => DB::table('users')->where("user_level", 2)->count(),
             ],
             [
                 "label" => "French Language",
-                "value" => 2314,
+                "value" => DB::table('users')->where("selected_language", 0)->count(),
             ],
             [
                 "label" => "English Language",
-                "value" => 2314,
+                "value" => DB::table('users')->where("selected_language", 1)->count(),
             ],
             [
                 "label" => "Accounts Created Mobile",
-                "value" => 2314,
+                "value" => DB::table('users')->where("created_on", 0)->count(),
             ],
             [
                 "label" => "Accounts Created Web",
-                "value" => 2314,
+                "value" => DB::table('users')->where("created_on", 1)->count(),
             ],
             [
                 "label" => "Weekly Checks Submitted",
-                "value" => 2314,
+                "value" => DB::table('vieva_all_checks')->where("checks_type", 0)->count(),
             ],
             [
                 "label" => "Monthly Checks Submitted",
-                "value" => 2314,
+                "value" => DB::table('vieva_all_checks')->where("checks_type", 1)->count(),
             ],
         ];
 
@@ -91,7 +92,7 @@ class AnalyticsController extends Controller
         $engagement_stats = [
             [
                 "label" => "Video Views",
-                "value" => DB::table('vieva_video_favorites')->count(),
+                "value" => DB::table('vieva_user_activities_videos')->count(),
             ],
             [
                 "label" => "Video Likes	",
@@ -117,10 +118,22 @@ class AnalyticsController extends Controller
     public function getWeeklyResults()
     {
         $weekly_results = [
-            ["label" => "Overall Average", "value" => ""],
-            ["label" => "Workload Average", "value" => ""],
-            ["label" => "Stress Average", "value" => ""],
-            ["label" => "Energy Average", "value" => ""],
+            [
+                "label" => "Overall Average",
+                "value" => DB::table('vieva_all_checks')->count(),
+            ],
+            [
+                "label" => "Workload Average",
+                "value" => DB::table('vieva_all_checks')->count(),
+            ],
+            [
+                "label" => "Stress Average",
+                "value" => DB::table('vieva_all_checks')->count(),
+            ],
+            [
+                "label" => "Energy Average",
+                "value" => DB::table('vieva_week_progress')->count(),
+            ],
         ];
 
         return $weekly_results;
@@ -129,10 +142,22 @@ class AnalyticsController extends Controller
     public function getMonthlyResults()
     {
         $monthly_results = [
-            ["label" => "Well-being Score Average", "value" => ""],
-            ["label" => "Average Mood", "value" => ""],
-            ["label" => "Average Energy", "value" => ""],
-            ["label" => "Average Engagement", "value" => ""],
+            [
+                "label" => "Well-being Score Average",
+                "value" => DB::table('vieva_week_progress')->count(),
+            ],
+            [
+                "label" => "Average Mood",
+                "value" => DB::table('vieva_week_progress')->count(),
+            ],
+            [
+                "label" => "Average Energy",
+                "value" => DB::table('vieva_week_progress')->count(),
+            ],
+            [
+                "label" => "Average Engagement",
+                "value" => DB::table('vieva_week_progress')->count(),
+            ],
         ];
 
         return $monthly_results;
@@ -141,12 +166,30 @@ class AnalyticsController extends Controller
     public function getCausesStress()
     {
         $results = [
-            ["label" => "Current Project Not Engaging", "value" => ""],
-            ["label" => "Over Loaded With Work", "value" => ""],
-            ["label" => "Frustated With Colleagues", "value" => ""],
-            ["label" => "Lacking Support To Do The Job", "value" => ""],
-            ["label" => "Family Issues", "value" => ""],
-            ["label" => "Unclear Expectations", "value" => ""],
+            [
+                "label" => "Current Project Not Engaging",
+                "value" => "",
+            ],
+            [
+                "label" => "Over Loaded With Work",
+                "value" => "",
+            ],
+            [
+                "label" => "Frustated With Colleagues",
+                "value" => "",
+            ],
+            [
+                "label" => "Lacking Support To Do The Job",
+                "value" => "",
+            ],
+            [
+                "label" => "Family Issues",
+                "value" => "",
+            ],
+            [
+                "label" => "Unclear Expectations",
+                "value" => "",
+            ],
         ];
 
         return $results;
@@ -189,4 +232,7 @@ class AnalyticsController extends Controller
 
         return $results;
     }
+
+    // END General Tab
+
 }

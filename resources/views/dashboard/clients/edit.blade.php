@@ -13,42 +13,41 @@
     <div class="fade-in">
       <div class="card" style="max-width: 65%; margin: auto;">
         <div class="card-header">Add Client</div>
-        <div class="card-body">
-          <form action="/administration/clients/{{ $client->corporate_client_id }}" id="editClientForm" method="POST">
+        <form action="/administration/clients/{{ $client->corporate_client_id }}" id="editClientForm" method="POST">
+          <div class="card-body">
             @csrf
             @method('PUT')
             <div class="form-group">
               <label>Client name</label>
               <input class="form-control" id="nf-name" name="corporate_name" value="{{ $client->corporate_name }}"
-                autocomplete="true">
+                required>
             </div>
             {{-- <div class="form-group">
               <label for="nf-pass">Password</label>
-              <input class="form-control" id="nf-pass" type="password" name="nf-pass" autocomplete="true">
+              <input class="form-control" id="nf-pass" type="password" name="nf-pass" required>
             </div> --}}
             <div class="form-group">
               <label>Number of Licenses</label>
               <input class="form-control" id="nf-name" name="Number_licences" value="{{ $client->Number_licences }}"
-                type="number" autocomplete="true">
+                type="number" required>
             </div>
             <div class="form-group">
               <label>Program starting date</label>
               <input class="form-control" id="nf-name" name="plan_starting_date" value="{{ $client->plan_starting_date }}"
-                type="date" autocomplete="true">
+                type="date" required>
             </div>
             <div class="form-group">
               <label>Program expiration date</label>
               <input class="form-control" id="nf-name" name="plan_expiration_date"
-                value="{{ $client->plan_expiration_date }}" type="date" autocomplete="true">
+                value="{{ $client->plan_expiration_date }}" type="date" required>
             </div>
-          </form>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-lg btn-success" onclick="document.getElementById('editClientForm').submit();"
-            style="width: 100%"> Save Changes </button>
-          <button class="btn btn-lg btn-danger" onclick="document.getElementById('removeClientForm').submit();"
-            style="width: 100%; margin-top:12px;"> Remove Client </button>
-        </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-lg btn-success" style="width: 100%"> Save Changes </button>
+            <button class="btn btn-lg btn-danger" onclick="document.getElementById('removeClientForm').submit();"
+              style="width: 100%; margin-top:12px;"> Remove Client </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

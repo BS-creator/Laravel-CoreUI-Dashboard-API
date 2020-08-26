@@ -8,8 +8,8 @@ class AdministrationController extends Controller
 {
     public function index()
     {
-        $admins = DB::table('vieva_users')->where("user_level", 1)->get();
-        $super = DB::table('vieva_users')->where("user_level", 0)->get();
+        $admins = DB::table('users')->where("user_level", 1)->get();
+        $super = DB::table('users')->where("user_level", 0)->get();
         $clients = DB::table('vieva_corporate_clients')->get();
         $teams = DB::table('vieva_corporate_groups')->get();
 

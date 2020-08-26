@@ -13,34 +13,34 @@
     <div class="fade-in">
       <div class="card" style="max-width: 65%; margin: auto;">
         <div class="card-header">Add Client</div>
-        <div class="card-body">
-          <form action="" method="post">
+        <form action="" method="post">
+          <div class="card-body">
             <div class="form-group">
               <label>Client name</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <input class="form-control" id="nf-name" name="nf-name" required>
             </div>
             <div class="form-group">
               <label for="nf-pass">Password</label>
-              <input class="form-control" id="nf-pass" type="password" name="nf-pass" autocomplete="true">
+              <input class="form-control" id="nf-pass" type="password" name="nf-pass" required>
             </div>
             <div class="form-group">
               <label>Number of Licenses</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <input class="form-control" id="nf-name" name="nf-name" required>
             </div>
             <div class="form-group">
               <label>Program starting date</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <input class="form-control" id="nf-name" name="nf-name" required>
             </div>
             <div class="form-group">
               <label>Program expiration date</label>
-              <input class="form-control" id="nf-name" name="nf-name" autocomplete="true">
+              <input class="form-control" id="nf-name" name="nf-name" required>
             </div>
-          </form>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-success" type="submit" style="width: 100%"> Save Changes </button>
-          <button class="btn btn-danger " type="submit" style="width: 100%; margin-top:10px"> Remove Client </button>
-        </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-success" type="submit" style="width: 100%"> Save Changes </button>
+            <button class="btn btn-danger " type="submit" style="width: 100%; margin-top:10px"> Remove Client </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

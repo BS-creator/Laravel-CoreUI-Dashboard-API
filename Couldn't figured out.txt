@@ -9,3 +9,7 @@ Monthly Checks Submitted
 
 Administration Page > client
 there's no password, number of licenses in vieva_corporate_clients table
+
+I don't understand group, team
+
+When creating lesson, you need to add related series id into lesson row.

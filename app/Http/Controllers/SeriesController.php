@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Series;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class SeriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +16,26 @@ class ClientsController extends Controller
     {
         //
     }
-
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    public function set_order($origin_id, $target_id, $origin_val, $target_val)
+    {
+        Series::where(["serie_id" => $origin_id])->update(["display_order" => $target_val]);
+        Series::where(["serie_id" => $target_id])->update(["display_order" => $origin_val]);
+
+        return redirect('/content');
+    }
+/**
+ * Show the form for creating a new resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function create()
     {
-        return view("dashboard.clients.create");
+        return view("dashboard.series.create");
     }
 
     /**
@@ -36,9 +47,15 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $client = $request->except(['_token']);
-        Client::create($client);
+        $max_order_val = Series::max('display_order');
 
-        return redirect('/administration');
+        $path = $request->file('picture')->store('public/series');
+
+        $client['picture'] = $path;
+        $client['display_order'] = $max_order_val + 1;
+
+        Series::create($client);
+        return redirect('/content');
     }
 
     /**
@@ -60,8 +77,9 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::where("corporate_client_id", $id)->get();
-        return view("dashboard.clients.edit", ["client" => $client[0]]);
+        $series = Series::where("serie_id", $id)->get();
+
+        return view("dashboard.series.edit", ["series" => $series[0]]);
     }
 
     /**
@@ -73,8 +91,14 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::where("corporate_client_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/administration');
+        $series = $request->except(['_token', '_method', 'picture']);
+        if ($request->file('picture')) {
+            $path = $request->file('picture')->store('public/series');
+            $series['picture'] = $path;
+        }
+
+        Series::where("serie_id", $id)->update($series);
+        return redirect('/content');
     }
 
     /**
@@ -85,7 +109,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        Client::where("corporate_client_id", $id)->delete();
-        return redirect('/administration');
+        Series::where("serie_id", $id)->delete();
+        return redirect('/content');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Tool;
 use Illuminate\Http\Request;
 
-class ClientsController extends Controller
+class ToolsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +16,14 @@ class ClientsController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Show the form for creating a new resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function create()
     {
-        return view("dashboard.clients.create");
+        return view("dashboard.tools.create");
     }
 
     /**
@@ -35,10 +34,10 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        $client = $request->except(['_token']);
-        Client::create($client);
+        $tool = $request->except(['_token']);
+        Tool::create($tool);
 
-        return redirect('/administration');
+        return redirect('/content');
     }
 
     /**
@@ -60,8 +59,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        $client = Client::where("corporate_client_id", $id)->get();
-        return view("dashboard.clients.edit", ["client" => $client[0]]);
+        $tools = Tool::where("tools_id", $id)->get();
+        return view("dashboard.tools.edit", ["tool" => $tools[0]]);
     }
 
     /**
@@ -73,8 +72,8 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::where("corporate_client_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/administration');
+        Tool::where("tools_id", $id)->update($request->except(['_token', '_method']));
+        return redirect('/content');
     }
 
     /**
@@ -85,7 +84,7 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        Client::where("corporate_client_id", $id)->delete();
-        return redirect('/administration');
+        Tool::where("tools_id", $id)->delete();
+        return redirect('/content');
     }
 }
