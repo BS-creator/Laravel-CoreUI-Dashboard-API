@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Lesson;
-use App\Quote;
+use App\Coaching;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class QuotesController extends Controller
+class ActivationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $users = User::all();
+
+        return view("dashboard.activation.index", [
+            "users" => $users,
+        ]);
+
     }
 
     /**
@@ -26,10 +30,7 @@ class QuotesController extends Controller
      */
     public function create()
     {
-        $lessons = Lesson::all();
-        return view("dashboard.quotes.create", [
-            "lessons" => $lessons,
-        ]);
+        return view("dashboard.activation.create");
     }
 
     /**
@@ -40,12 +41,10 @@ class QuotesController extends Controller
      */
     public function store(Request $request)
     {
-        $quote = $request->except(['_token', 'video_id']);
-        $stored = Quote::create($quote);
+        $coaching = $request->except(['_token']);
+        Coaching::create($coaching);
 
-        DB::table('vieva_quote_video_related')->insert(['quote_id' => $stored->id, 'video_id' => $request->input('video_id')]);
-
-        return redirect('/content?tab=quotes');
+        return redirect('/activation');
     }
 
     /**
@@ -56,7 +55,18 @@ class QuotesController extends Controller
      */
     public function show($id)
     {
-        //
+        $coaching = Coaching::where('coaching_id', $id)->first();
+        if ($coaching['target'] == "9") {
+            $coaching['target'] = " All Users";
+        } else if ($coaching['target'] == 2) {
+            $coaching['target'] = " Corporate Users";
+        } else {
+            $coaching['target'] = " Premium Users";
+        }
+
+        return view("dashboard.activation.show", [
+            "coaching" => $coaching,
+        ]);
     }
 
     /**
@@ -67,15 +77,10 @@ class QuotesController extends Controller
      */
     public function edit($id)
     {
-        $lessons = Lesson::all();
-        $quote = Quote::where("quote_id", $id)->get();
+        $coaching = Coaching::where("report_id", $id)->first();
 
-        $related_lesson = DB::table('vieva_quote_video_related')->where('quote_id', $quote[0]->quote_id)->get();
-
-        return view("dashboard.quotes.edit", [
-            "quote" => $quote[0],
-            "lessons" => $lessons,
-            "related_lesson_id" => $related_lesson[0]->video_id,
+        return view("dashboard.activation.edit", [
+            "coaching" => $coaching,
         ]);
     }
 
@@ -88,8 +93,8 @@ class QuotesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Quote::where("quote_id", $id)->update($request->except(['_token', '_method', 'video_id']));
-        return redirect('/content?tab=quotes');
+        Coaching::where("report_id", $id)->update($request->except(['_token', '_method', 'video_id']));
+        return redirect('/activation');
     }
 
     /**
@@ -100,7 +105,7 @@ class QuotesController extends Controller
      */
     public function destroy($id)
     {
-        Quote::where("quote_id", $id)->delete();
-        return redirect('/content?tab=quotes');
+        Coaching::where("report_id", $id)->delete();
+        return redirect('/activation');
     }
 }

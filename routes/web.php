@@ -17,18 +17,23 @@ Route::group(['middleware' => ['get.menu']], function () {
     // Route::get('/', function () {return view('dashboard.homepage');});
     Route::get('/', "AnalyticsController@index");
 
+    // Analytics Menu
     Route::prefix("analytics")->group(function () {
         Route::get('/', "AnalyticsController@index");
 
     });
 
+    // Administration Menu
     Route::prefix("administration")->group(function () {
         Route::get('/', "AdministrationController@index");
 
         Route::resource('clients', 'ClientsController');
+
+        Route::get('/teams/searchUser', "TeamsController@searchUser");
         Route::resource('teams', 'TeamsController');
     });
 
+    // Content Menu
     Route::prefix("content")->group(function () {
         Route::get('/', "ContentController@index");
 
@@ -39,6 +44,16 @@ Route::group(['middleware' => ['get.menu']], function () {
         Route::resource('tools', 'ToolsController');
     });
 
+    // Notification Menu
+    Route::resource('notifications', 'NotificationsController');
+
+    // Coaching Report Menu
+    Route::resource('coaching_reports', 'CoachingReportsController');
+
+// Activation Menu
+    Route::resource('activation', 'ActivationController');
+
+    // Origin routes
     Route::group(['middleware' => ['role:user']], function () {
         Route::get('/colors', function () {return view('dashboard.colors');});
         Route::get('/typography', function () {return view('dashboard.typography');});

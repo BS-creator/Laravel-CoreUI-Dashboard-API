@@ -41,7 +41,7 @@ class LessonsController extends Controller
 
         Lesson::create($lesson);
 
-        return redirect('/content');
+        return redirect('/content?tab=lessons');
     }
 
     /**
@@ -85,7 +85,7 @@ class LessonsController extends Controller
 
         Lesson::where("lesson_id", $id)->update($lesson);
 
-        return redirect('/content');
+        return redirect('/content?tab=lessons');
     }
 
     /**
@@ -97,6 +97,6 @@ class LessonsController extends Controller
     public function destroy($id)
     {
         Lesson::where("lesson_id", $id)->delete();
-        return redirect('/content');
+        return redirect('/content?tab=lessons');
     }
 }

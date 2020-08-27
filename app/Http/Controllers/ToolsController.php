@@ -37,7 +37,7 @@ class ToolsController extends Controller
         $tool = $request->except(['_token']);
         Tool::create($tool);
 
-        return redirect('/content');
+        return redirect('/content?tab=tools');
     }
 
     /**
@@ -73,7 +73,7 @@ class ToolsController extends Controller
     public function update(Request $request, $id)
     {
         Tool::where("tools_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/content');
+        return redirect('/content?tab=tools');
     }
 
     /**
@@ -85,6 +85,6 @@ class ToolsController extends Controller
     public function destroy($id)
     {
         Tool::where("tools_id", $id)->delete();
-        return redirect('/content');
+        return redirect('/content?tab=tools');
     }
 }

@@ -24,5 +24,32 @@
     }
 }
 
-.analytics-page {
+input[type="checkbox"],
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+}
+
+i.analytics {
+    color: #ff7600 !important;
+}
+
+i.content {
+    color: green !important;
+}
+
+i.administration {
+    color: black !important;
+}
+
+i.activation {
+    color: #2196f3 !important;
+}
+
+i.coaching {
+    color: orange !important;
+}
+
+i.notification {
+    color: red !important;
 }

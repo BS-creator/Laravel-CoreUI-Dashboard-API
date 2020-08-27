@@ -56,7 +56,6 @@
 @endsection
 
 @section('javascript')
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
   <script>
     $(document).on("change", "#fileU", function(evt) {

@@ -38,7 +38,7 @@ class ClientsController extends Controller
         $client = $request->except(['_token']);
         Client::create($client);
 
-        return redirect('/administration');
+        return redirect('/administration?tab=clients');
     }
 
     /**
@@ -74,7 +74,7 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         Client::where("corporate_client_id", $id)->update($request->except(['_token', '_method']));
-        return redirect('/administration');
+        return redirect('/administration?tab=clients');
     }
 
     /**
@@ -86,6 +86,6 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         Client::where("corporate_client_id", $id)->delete();
-        return redirect('/administration');
+        return redirect('/administration?tab=clients');
     }
 }

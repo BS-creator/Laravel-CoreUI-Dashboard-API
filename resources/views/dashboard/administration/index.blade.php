@@ -110,7 +110,7 @@
                         <label for="Timeframe">Select Client</label>
                         <select name="timeframe" class="form-control form-control-lg" id="Timeframe">
                           @foreach ($clients as $client)
-                            <option>{{ $client->corporate_name }}</option>
+                            <option value="{{ $client->corporate_client_id }}">{{ $client->corporate_name }}</option>
                           @endforeach
                         </select>
                       </div>
@@ -131,7 +131,7 @@
                         @foreach ($teams as $team)
                           <tr>
                             <th>{{ $team->group_name }}</th>
-                            <th><a href="/administration/teams/edit"><i class="cil-pencil"
+                            <th><a href="/administration/teams/{{ $team->group_id }}/edit"><i class="cil-pencil"
                                   style="font-size: 21px; cursor: pointer;"></i></a></th>
                           </tr>
                         @endforeach
@@ -169,30 +169,24 @@
                 <div class="card custom-card">
                   <div class="card-header"><i class="fa fa-align-justify"></i> Search User</div>
                   <div class="card-body">
-                    <form action="">
+                    <div>
                       <div class="form-group">
-                        <label for="nf-email"> Email </label>
-                        <input name="email" class="form-control" id="nf-email" autocomplete="true">
+                        <label>Email</label>
+                        <input required class="form-control" id="emailsearch" value="{{ $email }}" type="email">
                       </div>
-                    </form>
+                      <button class="btn btn-lg btn-success" id="userbyemail" style="width: 100%"> Search user </button>
+                      <br><br>
+                    </div>
 
                     <label>Search Results</label>
                     <table class="table table-responsive-sm table-bordered">
-                      <tbody>
+                      @foreach ($users as $user)
                         <tr>
-                          <th style="width:46px">
-                            <a href="/administration/clients/create">
-                              <i class="cil-plus" style="font-size: 21px;cursor: pointer; font-weight: bold;"></i></a>
-                          </th>
+                          <th>{{ $user->first_name }} {{ $user->last_name }}</th>
+                          <th><a href="/administration/clients/{{ $user->corporate_client_id }}/edit"><i
+                                class="cil-pencil" style="font-size: 21px;cursor: pointer;"></i></a></th>
                         </tr>
-                        @foreach ($clients as $client)
-                          <tr>
-                            <th>{{ $client->corporate_name }}</th>
-                            <th><a href="/administration/clients/{{ $client->corporate_client_id }}/edit"><i
-                                  class="cil-pencil" style="font-size: 21px;cursor: pointer;"></i></a></th>
-                          </tr>
-                        @endforeach
-                      </tbody>
+                      @endforeach
                     </table>
                   </div>
                 </div>
@@ -209,4 +203,13 @@
 
 @section('javascript')
 
+  <script>
+    $("#userbyemail").click(function() {
+      event.preventDefault();
+      var email = $("#emailsearch").val();
+      console.log(email)
+      window.location.href = "/administration?email=" + email + "&tab=users";
+    });
+
+  </script>
 @endsection

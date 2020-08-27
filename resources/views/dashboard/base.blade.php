@@ -85,8 +85,11 @@
 
 
   <!-- CoreUI and necessary plugins-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
   <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
   <script src="{{ asset('js/coreui-utils.js') }}"></script>
+  <script src="{{ asset('js/myscript.js') }}"></script>
   @yield('javascript')
 
 

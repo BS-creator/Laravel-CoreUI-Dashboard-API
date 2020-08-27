@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Lesson;
-use App\Quote;
+use App\Notific;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class QuotesController extends Controller
+class NotificationsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,11 @@ class QuotesController extends Controller
      */
     public function index()
     {
-        //
+        $notifications = Notific::all();
+        return view("dashboard.notifications.index", [
+            "notifications" => $notifications,
+        ]);
+
     }
 
     /**
@@ -26,10 +30,7 @@ class QuotesController extends Controller
      */
     public function create()
     {
-        $lessons = Lesson::all();
-        return view("dashboard.quotes.create", [
-            "lessons" => $lessons,
-        ]);
+        return view("dashboard.notifications.create");
     }
 
     /**
@@ -40,12 +41,11 @@ class QuotesController extends Controller
      */
     public function store(Request $request)
     {
-        $quote = $request->except(['_token', 'video_id']);
-        $stored = Quote::create($quote);
+        $notification = $request->except(['_token']);
+        $notification['date'] = date("Y-m-d-H-m-s");
+        Notific::create($notification);
 
-        DB::table('vieva_quote_video_related')->insert(['quote_id' => $stored->id, 'video_id' => $request->input('video_id')]);
-
-        return redirect('/content?tab=quotes');
+        return redirect('/notifications');
     }
 
     /**
@@ -56,7 +56,18 @@ class QuotesController extends Controller
      */
     public function show($id)
     {
-        //
+        $notification = Notific::where('notification_id', $id)->first();
+        if ($notification['target'] == "9") {
+            $notification['target'] = " All Users";
+        } else if ($notification['target'] == 2) {
+            $notification['target'] = " Corporate Users";
+        } else {
+            $notification['target'] = " Premium Users";
+        }
+
+        return view("dashboard.notifications.show", [
+            "notification" => $notification,
+        ]);
     }
 
     /**
@@ -68,12 +79,12 @@ class QuotesController extends Controller
     public function edit($id)
     {
         $lessons = Lesson::all();
-        $quote = Quote::where("quote_id", $id)->get();
+        $notification = Notific::where("quote_id", $id)->get();
 
-        $related_lesson = DB::table('vieva_quote_video_related')->where('quote_id', $quote[0]->quote_id)->get();
+        $related_lesson = DB::table('vieva_quote_video_related')->where('quote_id', $notification[0]->quote_id)->get();
 
-        return view("dashboard.quotes.edit", [
-            "quote" => $quote[0],
+        return view("dashboard.notifications.edit", [
+            "quote" => $notification[0],
             "lessons" => $lessons,
             "related_lesson_id" => $related_lesson[0]->video_id,
         ]);
@@ -88,8 +99,8 @@ class QuotesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Quote::where("quote_id", $id)->update($request->except(['_token', '_method', 'video_id']));
-        return redirect('/content?tab=quotes');
+        Notific::where("quote_id", $id)->update($request->except(['_token', '_method', 'video_id']));
+        return redirect('/notifications');
     }
 
     /**
@@ -100,7 +111,7 @@ class QuotesController extends Controller
      */
     public function destroy($id)
     {
-        Quote::where("quote_id", $id)->delete();
-        return redirect('/content?tab=quotes');
+        Notific::where("quote_id", $id)->delete();
+        return redirect('/notifications');
     }
 }

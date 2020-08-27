@@ -7,9 +7,10 @@ Accounts Credited Web
 Weekly Checks Submitted
 Monthly Checks Submitted
 
-Administration Page > client
-there's no password, number of licenses in vieva_corporate_clients table
 
-I don't understand group, team
+- I don't understand group, team
 
-When creating lesson, you need to add related series id into lesson row.
+- When creating lesson, you need to add related series id into lesson row.
+
+- In Coaching Reports menu, deleting session report doesn't work, it calls update method instead of destroy method.
+

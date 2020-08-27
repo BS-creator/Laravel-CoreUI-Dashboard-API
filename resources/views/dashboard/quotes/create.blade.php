@@ -30,13 +30,13 @@
                 <tbody>
                   <tr>
                     <th style="width:40px">
-                      <input class="" type="checkbox" name="language" value="1">
+                      <input class="" type="radio" checked name="language" value="1">
                     </th>
                     <th style=""> English </th>
                   </tr>
                   <tr>
                     <th style="width:40px">
-                      <input class="" type="checkbox" name="language" value="0">
+                      <input class="" type="radio" name="language" value="0">
                     </th>
                     <th style=""> French </th>
                   </tr>
